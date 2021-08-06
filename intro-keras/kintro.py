@@ -1,6 +1,11 @@
 # Additional functions for Microsoft Learn Module
 # Introduction to Keras
 
+import gzip
+import numpy as np
+import tensorflow as tf
+from typing import Tuple
+
 def read_images(path: str, image_size: int, num_items: int) -> np.ndarray:
   f = gzip.open(path,'r')
   f.read(16)
