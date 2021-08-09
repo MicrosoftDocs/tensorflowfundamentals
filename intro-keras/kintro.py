@@ -8,24 +8,8 @@ from typing import Tuple
 
 def read_images(path: str, image_size: int, num_items: int) -> np.ndarray:
   f = gzip.open(path,'r')
-  f.read(16)
   buf = f.read(image_size * image_size * num_items)
-  data = np.frombuffer(buf, dtype=np.uint8).astype(np.float32)
-  data = data.reshape(num_items, image_size, image_size)
-  return data
-
-def read_labels(path: str, num_items: int) -> np.ndarray:
-  f = gzip.open(path,'r')
-  f.read(8)
-  buf = f.read(num_items)
-  data = np.frombuffer(buf, dtype=np.uint8).astype(np.int64)
-  data = data.reshape(num_items)
-  return data
-
-def read_images(path: str, image_size: int, num_items: int) -> np.ndarray:
-  f = gzip.open(path,'r')
-  buf = f.read(image_size * image_size * num_items)
-  data = np.frombuffer(buf, dtype=np.uint8).astype(np.float32)
+  data = np.frombuffer(buf, dtype=np.uint8)
   data = data.reshape(num_items, image_size, image_size)
   return data
 
@@ -61,15 +45,23 @@ def get_data(batch_size: int) -> Tuple[tf.data.Dataset, tf.data.Dataset]:
   return (train_dataset, test_dataset)
 
 
-def get_model() -> tf.keras.Sequential:
-  model = tf.keras.Sequential([
-    tf.keras.layers.Flatten(input_shape=(28, 28)),
-    tf.keras.layers.Dense(512, activation='relu'),
-    tf.keras.layers.Dense(512, activation='relu'),
-    tf.keras.layers.Dense(10)
-  ])
-  return model
+class NeuralNetwork(tf.keras.Model):
+  def __init__(self):
+    super(NeuralNetwork, self).__init__()
+    self.sequence = tf.keras.Sequential([
+      tf.keras.layers.Flatten(input_shape=(28, 28)),
+      tf.keras.layers.Dense(512),
+      tf.keras.layers.ReLU(),
+      tf.keras.layers.Dense(512),
+      tf.keras.layers.ReLU(),
+      tf.keras.layers.Dense(10)
+    ])
 
+  def call(self, x: tf.Tensor) -> tf.Tensor:
+    y_prime = self.sequence(x)
+    return y_prime
+
+  
 labels_map = {
   0: 'T-Shirt',
   1: 'Trouser',
