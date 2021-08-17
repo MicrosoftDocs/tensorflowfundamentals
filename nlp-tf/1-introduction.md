@@ -1,3 +1,5 @@
+## Introduction to natural language processing with TensorFlow
+
 In this module, we will explore different neural network architectures for dealing with natural language text. In recent years, **Natural Language Processing** (NLP) has experienced fast growth as a field, both because of improvements to the language model architectures and because they've been trained on increasingly large text corpora. As a result, their ability to "understand" text has vastly improved, and large pre-trained models such as BERT have become widely used.
 
 We will focus on the fundamental aspects of representing NLP as tensors in TensorFlow, and on classical NLP architectures, such as using bag-of-words, embeddings and recurrent neural networks.

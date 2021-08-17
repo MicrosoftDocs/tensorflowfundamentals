@@ -1,3 +1,4 @@
+## Introduction to TensorFlow using Keras
 
 TensorFlow is a popular framework for working with machine learning. In this module we'll cover Keras, which is a higher-level and user-friendly API that is released as part of TensorFlow. For many scenarios, the level of abstraction provided by Keras gives us all the functionality we need, without the complexity of the lower-level concepts of TensorFlow.
 
