@@ -11,22 +11,17 @@ class NeuralNetwork(tf.keras.Model):
   def __init__(self):
     super(NeuralNetwork, self).__init__()
     initializer = tf.keras.initializers.GlorotUniform()
-    self.W1 = tf.Variable(initializer(shape=(784, 512)))
-    self.b1 = tf.Variable(tf.zeros(shape=(512,)))
-    self.W2 = tf.Variable(initializer(shape=(512, 512)))
-    self.b2 = tf.Variable(tf.zeros(shape=(512)))
-    self.W3 = tf.Variable(initializer(shape=(512, 10)))
-    self.b3 = tf.Variable(tf.zeros(shape=(10,)))
+    self.W1 = tf.Variable(initializer(shape=(784, 20)))
+    self.b1 = tf.Variable(tf.zeros(shape=(20,)))
+    self.W2 = tf.Variable(initializer(shape=(20, 10)))
+    self.b2 = tf.Variable(tf.zeros(shape=(10,)))
 
   def call(self, x: tf.Tensor) -> tf.Tensor:
     x = tf.reshape(x, [-1, 784])
     x = tf.matmul(x, self.W1) + self.b1
     x = tf.nn.relu(x)
     x = tf.matmul(x, self.W2) + self.b2
-    x = tf.nn.relu(x)
-    x = tf.matmul(x, self.W3) + self.b3
-    return x
-  
+    return x  
 
 def read_images(path: str, image_size: int, num_items: int) -> np.ndarray:
   f = gzip.open(path,'r')
