@@ -50,10 +50,7 @@ class NeuralNetwork(tf.keras.Model):
     super(NeuralNetwork, self).__init__()
     self.sequence = tf.keras.Sequential([
       tf.keras.layers.Flatten(input_shape=(28, 28)),
-      tf.keras.layers.Dense(512),
-      tf.keras.layers.ReLU(),
-      tf.keras.layers.Dense(512),
-      tf.keras.layers.ReLU(),
+      tf.keras.layers.Dense(20, activation='relu'),
       tf.keras.layers.Dense(10)
     ])
 
