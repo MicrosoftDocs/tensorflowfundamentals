@@ -24,18 +24,15 @@ class NeuralNetwork(tf.keras.Model):
     return x  
 
 def read_images(path: str, image_size: int, num_items: int) -> np.ndarray:
-  f = gzip.open(path,'r')
-  buf = f.read(image_size * image_size * num_items)
-  data = np.frombuffer(buf, dtype=np.uint8)
-  data = data.reshape(num_items, image_size, image_size)
+  with gzip.open(path, 'rb') as file:
+    data = np.frombuffer(file.read(), np.uint8, offset=16)
+    data = data.reshape(num_items, image_size, image_size)
   return data
 
 def read_labels(path: str, num_items: int) -> np.ndarray:
-  f = gzip.open(path,'r')
-  f.read(8)
-  buf = f.read(num_items)
-  data = np.frombuffer(buf, dtype=np.uint8).astype(np.int64)
-  data = data.reshape(num_items)
+  with gzip.open(path, 'rb') as file:
+    data = np.frombuffer(file.read(num_items + 8), np.uint8, offset=8)
+    data = data.astype(np.int64)
   return data
 
 def get_data(batch_size: int) -> Tuple[tf.data.Dataset, tf.data.Dataset]:
